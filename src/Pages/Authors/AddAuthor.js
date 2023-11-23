@@ -31,7 +31,7 @@ const AddAuthor = () => {
   return (
     <div id="content" className="formstyle">
       <form autoComplete="off" onSubmit={handleSubmit}>
-        <h2>Author Add Form</h2>
+        <h2>Add Author Form </h2>
         <TextField
           id="first_name"
           label="First Name"

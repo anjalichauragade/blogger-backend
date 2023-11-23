@@ -49,7 +49,7 @@ const EditAuthor = (props) => {
   return (
     <div id="content" className="formstyle">
       <form autoComplete="off" onSubmit={handleSubmit}>
-        <h2>Author Edit Form</h2>
+        <h2>Edit Author Form</h2>
         <TextField
           id="first_name"
           label="First Name"
