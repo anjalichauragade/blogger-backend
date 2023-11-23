@@ -5,8 +5,10 @@ import CategoryIcon from '@mui/icons-material/Category';
 import DescriptionIcon from '@mui/icons-material/Description';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EventIcon from '@mui/icons-material/Event';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { UpdateCategoray,IsEditingClose } from './CategorayStore/CategoraySlice'
 const EditCategory = (props) => {
+  const dispatch = useDispatch()
   const [catInput, setCatInput] = useState({
     cat_name: props.selectedCategory.cat_name,
     cat_desc: props.selectedCategory.cat_desc,
@@ -16,36 +18,12 @@ const EditCategory = (props) => {
 
   function handleSubmit(event) {
     event.preventDefault();
-    axios({
-      method: 'put',
-      url: `http://localhost:5000/category/updatecat/${props.selectedCategory.id}`,
-      data: catInput,
-      headers: {
-        token: localStorage.getItem('token'),
-      },
-    })
-      .then(function (response) {
-        console.log(response);
-        console.log('Updated successfully');
-        props.setIsEditing(false);
-        // Reload after editing
-        axios
-          .get('http://localhost:5000/category/catlist')
-          .then((response) => {
-            console.log(response.data);
-            props.setCategories(response.data);
-          })
-          .catch(function (error) {
-            console.error('Error fetching data:', error);
-          });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    const id = props.selectedCategory.id
+    dispatch(UpdateCategoray({id:id,CatData:catInput}))
   }
 
   function cancelHandler() {
-    props.setIsEditing(false);
+    dispatch(IsEditingClose(false))
   }
 
   return (
@@ -105,7 +83,7 @@ const EditCategory = (props) => {
         />
 
         <TextField
-          required
+      
           id="created"
           name="created"
           label="Date"

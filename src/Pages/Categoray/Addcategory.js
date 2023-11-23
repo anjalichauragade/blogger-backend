@@ -5,9 +5,11 @@ import CategoryIcon from '@mui/icons-material/Category';
 import DescriptionIcon from '@mui/icons-material/Description';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EventIcon from '@mui/icons-material/Event';
+import { useDispatch, useSelector } from 'react-redux';
+import { AddCategoray,IsAddingClose } from './CategorayStore/CategoraySlice'
 
 const Addcategory = (props) => {
- 
+ const dispatch = useDispatch()
   const [catInput, setcatInput] = useState({
     cat_name: '',
     cat_desc: '',
@@ -19,38 +21,15 @@ const Addcategory = (props) => {
   function handleSubmit(event) {
     event.preventDefault();
 
-    axios({
-      method: 'post',
-      url: 'http://localhost:5000/category/addcat',
-      data: catInput,
-      headers: {
-        token: localStorage.getItem('token'),
-      },
-    })
-      .then(function (response) {
-        console.log(response);
-        console.log('Added successfully');
-        props.setIsAdding(false);
-        // Reload the authors after adding
-        axios
-        .get('http://localhost:5000/category/catlist')
-          .then((response) => {
-            console.log(response.data);
-            props.setCategories(response.data);
-          })
-          .catch(function (error) {
-            console.error('Error fetching data:', error);
-          });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    dispatch(AddCategoray(catInput))
+      
+  
   }
 
 
 
   function cancleHandler() {
-    props.setIsAdding(false);
+    dispatch(IsAddingClose(false))
   }
 
   return (

@@ -6,14 +6,19 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import Addcategory from './Addcategory';
 import EditCategory from './EditCategory ';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { FetchCategoray, DeleteCategoray,IsAddingOpen,IsEditingOpen } from './CategorayStore/CategoraySlice'
 import { useState, useEffect } from 'react';
 
 const Categoraypanel = () => {
-  const [categories, setCategories] = useState([]);
+
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [isAdding, setIsAdding] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
+
+  const dispatch = useDispatch();
+  const CatData = useSelector((state) => state.CategorayR.catData);
+  const IsAdding = useSelector((state) => state.CategorayR.IsAdding);
+  const IsEditing = useSelector((state) => state.CategorayR.IsEditing);
+  const loading = useSelector((state) => state.CategorayR.loading);
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -46,14 +51,8 @@ const Categoraypanel = () => {
   ];
 
   useEffect(() => {
-    axios
-      .get('http://localhost:5000/category/catlist') // Use the appropriate API endpoint for categories
-      .then((response) => {
-        setCategories(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
+
+    dispatch(FetchCategoray())
   }, []);
 
   const onDeleteHandler = (event, rowData) => {
@@ -65,48 +64,30 @@ const Categoraypanel = () => {
       confirmButtonText: 'Yes',
       cancelButtonText: 'No',
     }).then((result) => {
-      if (result.isConfirmed) {
-        const deleteCatApi = `http://localhost:5000/category/deletecat/${catId}`; // Use the correct API endpoint
-        axios
-          .delete(deleteCatApi, {
-            headers: {
-              token: localStorage.getItem('token'),
-            },
-          })
-          .then(function (response) {
-            Swal.fire({
-              icon: 'success',
-              title: 'Deleted',
-              text: 'Category has been deleted',
-              showConfirmButton: false,
-              timer: 1200,
-            }).then((res) => {
-              setCategories(categories.filter((cat) => cat.id !== catId)); 
-            });
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+      if (result.value) {
+        dispatch(DeleteCategoray(catId));
       }
+      Swal.fire({
+        icon: 'Delete',
+        title: 'Categoray is deleted',
+      });
     });
   };
 
   const onUpdateHandler = (event, rowData) => {
-    const [category] = categories.filter((cat) => cat.id === rowData.id);
-    console.log(category)
-    setSelectedCategory(category);
-    setIsEditing(true);
+    setSelectedCategory(rowData)
+    dispatch(IsEditingOpen(true));
   };
 
   const onAddHandler = () => {
-    setIsAdding(true);
+    dispatch(IsAddingOpen(true))
   };
 
   return (
     <React.Fragment>
       <Box sx={{ height: 400, width: '100%' }}>
         <h2>Category</h2>
-        {!isAdding && !isEditing && (
+        {!IsAdding && !IsEditing && (
           <>
             <div style={{ margin: '40px' }}>
               <Button onClick={onAddHandler} variant="outlined" color="secondary" sx={{ marginRight: '2%' }}>
@@ -114,7 +95,7 @@ const Categoraypanel = () => {
               </Button>
             </div>
             <DataGrid
-              rows={categories}
+              rows={CatData}
               columns={columns}
               initialState={{
                 pagination: {
@@ -129,8 +110,8 @@ const Categoraypanel = () => {
             />
           </>
         )}
-        {isAdding && <Addcategory setCategories={setCategories} setIsAdding={setIsAdding} />} 
-        {isEditing && <EditCategory selectedCategory={selectedCategory} setCategories={setCategories} setIsEditing={setIsEditing} />} 
+        {IsAdding && <Addcategory />}
+        {IsEditing && <EditCategory selectedCategory={selectedCategory} />}
       </Box>
     </React.Fragment>
   );
