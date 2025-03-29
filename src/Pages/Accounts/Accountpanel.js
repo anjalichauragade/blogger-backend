@@ -12,18 +12,15 @@ const columns = [
   { field: 'first_name', headerName: 'First Name', width: 150 },
   { field: 'last_name', headerName: 'Last Name', width: 150 },
   { field: 'email', headerName: 'Email', width: 200 },
-  { field: 'password', headerName: 'Password', width: 150 },
   { field: 'phone', headerName: 'Phone', width: 150 },
-  { field: 'created', headerName: 'Created', width: 150 },
 ];
-
 
 const Accountpanel = () => {
   const [author, setauthor] = useState([]);
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/user/getlogin')
+      .get('http://localhost:5000/login/getlogin')
       .then((response) => {
         console.log(response.data)
         setauthor(response.data);

@@ -9,9 +9,9 @@ import Commentpanel from './Pages/Comments/Commentpanel';
 import Accountpanel from './Pages/Accounts/Accountpanel';
 import Accounts from './Pages/Accounts/Accounts';
 
-
-
-
+import Comments from './Pages/Comments/Comments';
+import Posts from './Pages/Posts/Posts';
+import Category from './Pages/Categoray/Categoray';
  import Loginform from './Pages/login/Loginform';
 
 
@@ -34,11 +34,11 @@ function App() {
                
                 <Route path="accounts" element={ <Accounts/> } />
                
-              
-                
-                
+                <Route path="comments" element={ <Comments/> } />
+                <Route path="posts" element={ <Posts/> } />
+                <Route path="cat" element={ <Category/> } />
 
-                <Route path="Login" element={ <Loginform/> } />
+                <Route path="login" element={ <Loginform/> } />
               </Routes> 
             </switch>
           </Box>

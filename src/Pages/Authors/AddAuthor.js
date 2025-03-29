@@ -1,50 +1,59 @@
-import React, { useState } from 'react';
+import React from 'react';
+import './Authors.css';
 import { TextField, Button, InputAdornment } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
-import { useDispatch,useSelector } from 'react-redux';
-import { AddAuthorData,IsAddingClose} from '../../Stores/AuthorSlice';
-const AddAuthor = () => {
-  const dispatch = useDispatch();
-  const [authInput, setAuthInput] = useState({
+import axios from 'axios';
+
+const AddAuthor = (props) => {
+  let [authInput, setAuthInput] = React.useState({
     first_name: '',
     last_name: '',
     email: '',
-    phone: '',
+    phone: ''
   });
-  console.log(setAuthInput)
-
-  const cancleHandler = () => {
-    
-    dispatch(IsAddingClose(false));
-    console.log(dispatch)
-  };
-
-  const handleSubmit = (event) => {
+  function handleSubmit(event) {
+    // TODO: Handle form submission
     event.preventDefault();
-    dispatch(AddAuthorData(authInput));
-    
-  };
 
+    console.log(authInput);
+
+    axios({
+      method: 'post',
+      url: `${process.env.APIBASEURL}/author/addauth`,
+      data: authInput,
+      headers: {
+            token: localStorage.getItem('token')
+      }
+    })
+    .then(function (response) {
+      // handle success
+      console.log(response)
+      console.log('added successfully')
+      props.setIsAdding(false)
+      
+  
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    });
+  }
+  function cancleHandler () {
+    props.setIsAdding(false);
+  }
 
   return (
     <div id="content" className="formstyle">
       <form autoComplete="off" onSubmit={handleSubmit}>
-        <h2>Add Author Form </h2>
+        <h2>Author Add Form</h2>
         <TextField
           id="first_name"
           label="First Name"
-          value={authInput.first_name}
-          onChange={(event) =>
-            setAuthInput({ first_name: event.target.value })
-          }
+          onChange={event => setAuthInput({...authInput, first_name: event.target.value})}
           InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <AccountCircleIcon />
-              </InputAdornment>
-            ),
+            startAdornment: <InputAdornment position="start"><AccountCircleIcon /></InputAdornment>,
           }}
           fullWidth
           sx={{ mb: 3 }}
@@ -53,34 +62,20 @@ const AddAuthor = () => {
         <TextField
           required
           id="last_name"
-          label="Last Name"
-          value={authInput.last_name}
-          onChange={(event) =>
-            setAuthInput({ ...authInput, last_name: event.target.value })
-          }
+          label="Last Name" 
+          onChange={event => setAuthInput({...authInput, last_name: event.target.value})}
           InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <AccountCircleIcon />
-              </InputAdornment>
-            ),
+            startAdornment: <InputAdornment position="start"><AccountCircleIcon /></InputAdornment>,
           }}
           fullWidth
           sx={{ mb: 3 }}
         />
         <TextField
           id="email"
-          label="Email"
-          value={authInput.email}
-          onChange={(event) =>
-            setAuthInput({ ...authInput, email: event.target.value })
-          }
+          label="Email" 
+          onChange={event => setAuthInput({...authInput, email: event.target.value})}
           InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <EmailIcon />
-              </InputAdornment>
-            ),
+            startAdornment: <InputAdornment position="start"><EmailIcon /></InputAdornment>,
           }}
           fullWidth
           sx={{ mb: 3 }}
@@ -89,26 +84,19 @@ const AddAuthor = () => {
         <TextField
           required
           id="phone"
-          label="Phone Number"
-          value={authInput.phone}
-          onChange={(event) =>
-            setAuthInput({ ...authInput, phone: event.target.value })
-          }
+          label="Phone Number" 
+          onChange={event => setAuthInput({...authInput, phone: event.target.value})}
           InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <PhoneIcon />
-              </InputAdornment>
-            ),
+            startAdornment: <InputAdornment position="start"><PhoneIcon /></InputAdornment>,
           }}
           fullWidth
           sx={{ mb: 3 }}
         />
         <Button variant="outlined" color="secondary" onClick={cancleHandler}>
-          Cancel
+          Cancle
         </Button>
-        <Button variant="outlined" color="secondary" onClick={handleSubmit} type="submit">
-          Submit
+        <Button variant="outlined" color="secondary" type="submit">
+          Submit 
         </Button>
       </form>
     </div>

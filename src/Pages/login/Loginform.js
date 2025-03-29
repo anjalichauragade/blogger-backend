@@ -30,7 +30,7 @@ function Loginform() {
     
       axios({
         method: 'post',
-        url: 'http://localhost:5000/user/login',
+        url: 'http://localhost:5000/users/login',
         data: {
           email: email,
           password: password
@@ -38,8 +38,9 @@ function Loginform() {
       })
       .then(function (response) {
         // handle success
-        console.log({data: response.data[0].token, data2:response.data[0].first_name,});
-        localStorage.setItem("token", response.data[0].token);
+        console.log(response.data);
+        //console.log({data: response.data.token, data2:response.data.first_name,});
+        localStorage.setItem("token", response.data.token);
         navigate('/author')
       // console.log(userData.data[0].title);
       })
