@@ -5,7 +5,7 @@ export const fetchAuthor = createAsyncThunk(
     'getAuthor',
     async (arg, { rejectWithValue }) => {
         try {
-            const response = await axios.get('http://localhost:5000/author/authlist');
+            const response = await axios.get('http://localhost:4000/author/authlist');
             console.log('--------insde createAsyncThunk response---');
             console.log(response.data);
           
@@ -21,7 +21,7 @@ export const AddAuthorData = createAsyncThunk(
         console.log('insside AddAuthorData createAsyncThunk ');
         console.log(addAuthorInputData);
         try {
-            const response = await axios.post('http://localhost:5000/author/addAuth', addAuthorInputData, {
+            const response = await axios.post('http://localhost:4000/author/addAuth', addAuthorInputData, {
                 headers: {
                     token: localStorage.getItem('token'),
                 },
@@ -38,7 +38,7 @@ export const DeleteAuthor = createAsyncThunk(
     'DeleteAuthor',
     async (autID, { rejectWithValue }) => {
         try {
-            const response = await axios.delete(`http://localhost:5000/author/deleteAuth/${autID}`, {
+            const response = await axios.delete(`http://localhost:4000/author/deleteAuth/${autID}`, {
                 headers: {
                     token: localStorage.getItem('token'),
                 },
@@ -53,7 +53,7 @@ export const UpdateAuthor = createAsyncThunk(
     'UpdateAuthor',
     async ({ID,Data}, { rejectWithValue }) => {
         try {
-            const response = await axios.put(`http://localhost:5000/author/updateAuth/${ID}`, Data, {
+            const response = await axios.put(`http://localhost:4000/author/updateAuth/${ID}`, Data, {
                 headers: {
                     token: localStorage.getItem('token'),
                 },

@@ -19,7 +19,7 @@ const  Addcomments = (props) => {
 
     axios({
       method: 'post',
-      url: 'http://localhost:5000/comment/AddCommnents',
+      url: 'http://localhost:4000/comment/AddCommnents',
       data: commentInput,
       headers: {
         token: localStorage.getItem('token'),
@@ -31,7 +31,7 @@ const  Addcomments = (props) => {
         props.setIsAdding(false);
         // Reload the authors after adding
         // axios
-        //  .get('http://localhost:5000/comment/commentsData')
+        //  .get('http://localhost:4000/comment/commentsData')
         //   .then((response) => {
         //     props.setComment(response.data);
         //   })

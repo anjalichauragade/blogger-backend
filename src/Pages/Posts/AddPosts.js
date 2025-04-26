@@ -23,7 +23,7 @@ const AddPosts = (props) => {
   useEffect(()=>{
       axios({
         method: 'get',
-        url: 'http://localhost:5000/category/catlist',
+        url: 'http://localhost:4000/category/catlist',
         headers: {
           token: localStorage.getItem('token'),
         },
@@ -40,7 +40,7 @@ const AddPosts = (props) => {
   useEffect(()=>{
       axios({
         method: 'get',
-        url: 'http://localhost:5000/author/authlist',
+        url: 'http://localhost:4000/author/authlist',
         headers: {
           token: localStorage.getItem('token'),
         },
@@ -60,7 +60,7 @@ const AddPosts = (props) => {
     // return true;
     axios({
       method: 'post',
-      url: 'http://localhost:5000/post/addPost',
+      url: 'http://localhost:4000/post/addPost',
       data: newPost,
       headers: {
         token: localStorage.getItem('token'),
@@ -72,7 +72,7 @@ const AddPosts = (props) => {
         props.setIsAdding(false);
         // Reload the posts after adding
         axios
-          .get('http://localhost:5000/post/postData')
+          .get('http://localhost:4000/post/postData')
           .then((response) => {
             props.setPost(response.data);
             console.log(response.data)

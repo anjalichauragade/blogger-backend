@@ -8,7 +8,7 @@ export const FetchCategoray = createAsyncThunk(
     async (arg, { rejectWithValue }) => {
         try {
 
-            const response = await axios.get('http://localhost:5000/category/catlist')
+            const response = await axios.get('http://localhost:4000/category/catlist')
             return response.data
 
         } catch (error) {
@@ -24,7 +24,7 @@ export const AddCategoray = createAsyncThunk(
         try {
             const response = await axios({
                 method: 'post',
-                url: 'http://localhost:5000/category/addcat',
+                url: 'http://localhost:4000/category/addcat',
                 data: CatData,
                 headers: {
                     token: localStorage.getItem('token'),
@@ -48,7 +48,7 @@ export const UpdateCategoray = createAsyncThunk(
         try {
             const response = await axios({
                 method: 'put',
-                url: `http://localhost:5000/category/updatecat/${id}`,
+                url: `http://localhost:4000/category/updatecat/${id}`,
                 data: CatData,
                 headers: {
                     token: localStorage.getItem('token'),
@@ -71,7 +71,7 @@ export const DeleteCategoray = createAsyncThunk(
         try {
             const response = await axios({
                 method: 'delete',
-                url: `http://localhost:5000/category/deletecat/${catId}`,
+                url: `http://localhost:4000/category/deletecat/${catId}`,
                 headers: {
                     token: localStorage.getItem('token'),
                 },

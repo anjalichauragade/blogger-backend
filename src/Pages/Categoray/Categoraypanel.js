@@ -1,64 +1,54 @@
-
 import { DataGrid } from '@mui/x-data-grid';
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 90 },
-  { field: 'first_name', headerName: 'First Name', width: 150 },
-  { field: 'last_name', headerName: 'Last Name', width: 150 },
-  { field: 'email', headerName: 'Email', width: 200 },
-  { field: 'phone', headerName: 'Phone', width: 150 },
+  { field: 'name', headerName: 'Category Name', width: 150 },
+  { field: 'description', headerName: 'Description', width: 200 },
 ];
 
-const Categoraypanel = () => {
-
-  const [author, setauthor] = useState([]);
+const CategoryPanel = () => {
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/author/authlist')
+      .get('http://localhost:4000/category/categoriesData')
       .then((response) => {
-        console.log(response.data)
-        setauthor(response.data);
+        const categoriesWithId = response.data.map((category) => ({
+          ...category,
+          id: category._id, // MongoDB _id as the id for the DataGrid
+        }));
+        setCategories(categoriesWithId);
       })
       .catch((error) => {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching categories:', error);
       });
   }, []);
 
   return (
     <Box sx={{ height: 400, width: '100%' }}>
-    <h2>Categoray</h2>
-    <div style={{ margin: '40px', cellspacing: '30px' }}>
+      <h2>Categories</h2>
+      <div style={{ margin: '40px', cellspacing: '30px' }}>
         <Button variant="outlined" color="secondary" sx={{ marginRight: '2%' }}>
-          <Link to={'cat'} style={{ textDecoration: 'none' }}>
-            Add
+          <Link to={'/add-category'} style={{ textDecoration: 'none' }}>
+            Add Category
           </Link>
         </Button>
-        </div>
+      </div>
       <DataGrid
-        rows={author}
+        rows={categories}
         columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
-            },
-          },
-        }}
-        pageSizeOptions={[5]}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
         checkboxSelection
         disableRowSelectionOnClick
       />
-      
-      
     </Box>
   );
 };
 
-export default Categoraypanel;
+export default CategoryPanel;

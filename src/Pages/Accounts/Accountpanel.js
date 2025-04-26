@@ -20,7 +20,7 @@ const Accountpanel = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/login/getlogin')
+      .get('http://localhost:4000/login/getlogin')
       .then((response) => {
         console.log(response.data)
         setauthor(response.data);

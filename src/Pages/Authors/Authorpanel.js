@@ -44,7 +44,7 @@ const Authorpanel = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/author/authlist')
+      .get('http://localhost:4000/author/authlist')
       .then((response) => {
         console.log(response.data)
         setauthor(response.data);
@@ -65,7 +65,7 @@ const Authorpanel = () => {
         cancelButtonText:"No",
       }).then(result =>{
           if (result.value) {
-            let deleteAuthApi =  `http://localhost:5000/author/deleteauth/${authId}`;
+            let deleteAuthApi =  `http://localhost:4000/author/deleteauth/${authId}`;
             axios.delete(deleteAuthApi, {
                     headers: {
                         token: localStorage.getItem('token')

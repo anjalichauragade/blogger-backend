@@ -21,7 +21,7 @@ const EditPosts = (props) => {
 
     axios({
       method: 'put',
-      url: `http://localhost:5000/post/Putpost/${props.selectedPost.id}`,
+      url: `http://localhost:4000/post/Putpost/${props.selectedPost.id}`,
       data: Postdata,
       headers: {
         token: localStorage.getItem('token'),

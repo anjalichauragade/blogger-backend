@@ -21,7 +21,7 @@ const Postpanel
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/post/postData')
+      .get('http://localhost:4000/post/postData')
       .then((response) => {
         console.log(response.data)
         setauthor(response.data);

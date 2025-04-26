@@ -19,7 +19,7 @@ const  Editcomments  = (props) => {
 
     axios({
       method: 'put',
-      url: `http://localhost:5000/comment/UpdateComments/${props.selectedComment.id}`,
+      url: `http://localhost:4000/comment/UpdateComments/${props.selectedComment.id}`,
       data: CommentInput,
       headers: {
         token: localStorage.getItem('token'),
